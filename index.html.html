@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Planeación</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        header {
+            background-color: #5e0a24;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #5e0a24;
+            border-bottom: 3px solid #e3d27a;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            width: 30%;
+        }
+        .form-group select,
+        .form-group input {
+            width: 65%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group input[type="submit"] {
+            background-color: #5e0a24;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            float: right;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #730d30;
+        }
+    </style>
+    <script>
+        function updatePresidente() {
+            const turnoSelect = document.getElementById("turno");
+            const presidenteSelect = document.getElementById("presidente");
+            presidenteSelect.innerHTML = '';
+            const turno = turnoSelect.value;
+            let options = [];
+		
+            if (turno === "matutino") {
+                options = [ "Pascuala Arenas Texis","Sergio Cervantes Villa", "Lilia Cortés Hernández","Margarita García Hernández", "Diana Trinidad García Tamayo", "José María Gutiérrez Gallo","Diana Leticia Machuca García","Apolinar Daniel Ortiz Cruz", "Alicia Ramírez Girón", "Luis Ramos Luna" ,  "Javier Sánchez Estra","César Santillán López","Lorena Solano Vargas","Sergio Solis Garcia","Celia Tetlamatzi Montiel","Laura Valdez Díaz", "Luis Velasco López","Claudia Edelmira Vieytez Niño"];
+            } else if (turno === "vespertino") {
+                options = ["Luis Edgar Alanis Carranza","Erwin Badillo Mendieta","Baldemar Cancino Calderón", "Ana Cristina Castilla Ángeles","Adrián Emilio Castillo Mares","María Isabel Cruz Palacion", "Miguel Esteba Fernández Rosales", "Miguel Ángel Flores Puga","Jorge Arturo García Barrera", "Celia Hernández Cruz","Araceli Rosalía Hidalgo Santín", "Humberto Méndez Sotelo","Eleazar Mexica Atenco","Ivan Manuel Moreno Calles", "José Olvera Mendoza", "Luis Arturo Pavano Gaitán",   "Talía Ramírez Díaz", "Laura Vargas Fierro"];
+            }
+
+            options.forEach(option => {
+                const opt = document.createElement("option");
+                opt.value = option.toLowerCase().replace(/\s+/g, '-');
+                opt.textContent = option;
+                presidenteSelect.appendChild(opt);
+            });
+        }
+
+        function updateAcademiaOptions() {
+            const areaSelect = document.getElementById("area");
+            const academiaSelect = document.getElementById("academia");
+            academiaSelect.innerHTML = '';
+            const area = areaSelect.value;
+            let options = [];
+
+            if (area === "básicas") {
+                options = ["Computación", "Matemáticas", "Química", "Dibujo", "Física"];
+            } else if (area === "humanísticas") {
+                options = ["Desarrollo Personal", "Expresión Oral y Escrita", "Filosofía", "Historia", "Inglés", "Orientación", "Desarrollo de Habilidades de Pensamiento", "Entorno Socioeconómico de México"];
+            } else if (area === "tecnológicas") {
+                options = ["Diagnóstico y Mejoramiento Ambiental", "Metrología y Control de Calidad", "Telecomunicaciones", "Mecatrónica"];
+            }
+
+            options.forEach(option => {
+                const opt = document.createElement("option");
+                opt.value = option.toLowerCase().replace(/\s+/g, '-');
+                opt.textContent = option;
+                academiaSelect.appendChild(opt);
+            });
+
+            updateUnidadAprendizajeOptions();
+        }
+
+        function updateUnidadAprendizajeOptions() {
+            const nivelSelect = document.getElementById("nivel");
+            const areaSelect = document.getElementById("area");
+            const academiaSelect = document.getElementById("academia");
+            const unidadSelect = document.getElementById("unidad-aprendizaje");
+            unidadSelect.innerHTML = '';
+
+            const nivel = nivelSelect.value;
+            const area = areaSelect.value;
+            const academia = academiaSelect.value;
+
+            let options = [];
+
+            if (area === "básicas") {
+                const basicSubjects = {
+                    "primer-semestre": ["Álgebra", "Computación Básica I"],
+                    "segundo-semestre": ["Geometría y Trigonometría", "Computación Básica II", "Biología Básica"],
+                    "tercer-semestre": ["Geometría Analítica", "Física I", "Química I", "Dibujo Técnico I"],
+                    "cuarto-semestre": ["Cálculo Diferencial", "Física II", "Dibujo Técnico II", "Química II"],
+                    "quinto-semestre": ["Cálculo Integral", "Física III", "Química III"],
+                    "sexto-semestre": ["Probabilidad y Estadística", "Física IV", "Química IV"]
+                };
+                options = basicSubjects[nivel] || [];
+            } else if (area === "humanísticas") {
+                const humanitiesSubjects = {
+                    "primer-semestre": ["Filosofía I", "Inglés I", "Expresión Oral y Escrita I", "Desarrollo de Habilidades del Pensamiento", "Historia de México Contemporáneo I", "Desarrollo Personal", "Orientación Juvenil y Profesional"],
+                    "segundo-semestre": ["Filosofía II", "Inglés II", "Expresión Oral y Escrita II", "Historia de México Contemporáneo II", "Orientación Juvenil y Profesional II"],
+                    "tercer-semestre": ["Inglés III", "Comunicación Científica", "Entorno Socioeconómico de México"],
+                    "cuarto-semestre": ["Inglés IV"],
+                    "quinto-semestre": ["Inglés V", "Orientación Juvenil y Profesional III"],
+                    "sexto-semestre": ["Inglés VI", "Orientación Juvenil y Profesional IV"]
+                };
+                options = humanitiesSubjects[nivel] || [];
+            } else if (area === "tecnológicas") {
+                const techSubjects = {
+                    "diagnóstico-y-mejoramiento-ambiental": {
+                        "tercer-semestre": ["Ciencias Ambientales", "Observación y Análisis de Parámetros Meteorológicos", "Introducción a los Métodos Analíticos Ambientales", "Métodos de Muestreo Ambiental"],
+                        "cuarto-semestre": ["Aplicación de Medidas de Seguridad e Higiene Industrial", "Desarrollo Sustentable", "Control de Emisión de Gases y Partículas", "Diagnóstico y Monitoreo de la Calidad del Aire", "Energías Asequibles y No Contaminantes"],
+                        "quinto-semestre": ["Tratamiento de Agua Residual", "Sistemas Hidrológicos y su Contaminación", "Análisis de la Calidad del Agua", "Legislación Ambiental", "Experimentos y Saneamiento Ambiental", "Riesgo e Impacto Ambiental"],
+                        "sexto-semestre": ["Contaminación y Remediación del Suelo", "Análisis del Suelo", "Manejo Integral de Residuos", "Gestión Ambiental", "Desarrollo de Proyectos Sustentables", "Desarrollo de Proyectos Ambientales"]
+                    },
+                    "metrología-y-control-de-calidad": {
+                        "tercer-semestre": ["Metrología Dimensional", "Control de Calidad", "Dibujo Asistido por Computadora", "Estudio del Trabajo"],
+                        "cuarto-semestre": ["Metrología Geométrica", "Normalización y Certificación", "Taller de Manufactura", "Diseño y Representación de Mecanismos", "Tecnología de Materiales"],
+                        "quinto-semestre": ["Control Estadístico de la Calidad", "Control Numérico Computarizado", "Taller de Procesos de Manufactura", "Gestión de la Metrología", "Validación y Verificación de Instrumentos de Medición"],
+                        "sexto-semestre": ["Control Total de la Calidad", "Metrología de Materiales", "Centro de Maquinado", "Proyecto de un Sistema de Gestión de la Calidad"]
+                    },
+                    "telecomunicaciones": {
+                        "tercer-semestre": ["Electrotecnía de Corriente Alterna y Corriente Continua", "Sistemas de Audio", "Seguridad e Higiene en las Telecomunicaciones", "Técnicas de Supervisión en las Telecomunicaciones"],
+                        "cuarto-semestre": ["Diseño Digital", "Electrónica Analógica", "Desarrollo de Soluciones Computacionales", "Sistemas de Video"],
+                        "quinto-semestre":  ["Microcontroladores", "Medios de Transmisión", "Sistemas de Telecomunicaciones", "Programación Móvil", "Tecnología Satelital"],
+                        "sexto-semestre": ["Telefonía", "Redes de Datos", "Comunicaciones Móviles e Inalámbricas", "Implementación de Proyectos de Telecomunicaciones", "Entornos Inteligentes"]
+                    },
+                    "mecatrónica": {
+                        "tercer-semestre": ["Metrología y Tecnología de Materiales", "Electrotecnía de Corriente Alterna y Corriente Continua", "Procesos de Soldadura en Sistemas Mecatrónicos", "Gestión de la Calidad en Sistemas Mecatrónicos"],
+                        "cuarto-semestre": ["Mecanizado de Piezas para Sistemas Mecatrónicos", "Introducción a Sistemas Digitales", "Lenguaje de Programación", "Manufactura Avanzada", "Simulación de Sistemas Electrónicos"],
+                        "quinto-semestre": ["Diseño de Mecanismos Asistidos por Computadora", "Sensores y Actuadores Electrónicos", "Dispositivos Lógicos y Programables", "Robótica Industrial", "Diseño de Aplicaciones Móviles"],
+                        "sexto-semestre": ["Electro Neumática", "Electrónica de Potencias", "Herramientas Computacionales de Vanguardia (CAD,CAM)", "Integración de Sistemas", "Desarrollo de Proyectos Mecatrónicos"]
+                    }
+                };
+
+                options = techSubjects[academia][nivel] || [];
+            }
+
+            options.forEach(option => {
+                const opt = document.createElement("option");
+                opt.value = option.toLowerCase().replace(/\s+/g, '-');
+                opt.textContent = option;
+                unidadSelect.appendChild(opt);
+            });
+        }
+    </script>
+</head>
+<body>
+
+<header>
+    <h1>DISEÑO CURRICULAR</h1>
+    <nav></nav>
+</header>
+
+<div class="container">
+    <h2>Registro de Planeación</h2>
+
+    <form id="planningForm">
+        <div class="form-group">
+            <label for="unidad">Unidad Académica</label>
+            <input type="text" id="unidad" value="CECyT 10 'Carlos Vallejo Márquez'" readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="ciclo">Ciclo Escolar</label>
+            <select id="ciclo">
+		<option value="selecciona-ciclo-escolar">Selecciona Ciclo Escolar
+                <option value="enero-junio-2025">Enero - Junio 2025</option>
+                <option value="julio-agosto-2025">Julio - Agosto 2025</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="nivel">Nivel</label>
+            <select id="nivel" onchange="updateUnidadAprendizajeOptions()">
+		<option value="selecciona-nivel">Selecciona Nivel</option>
+                <option value="primer-semestre">Primer Semestre</option>
+                <option value="segundo-semestre">Segundo Semestre</option>
+                <option value="tercer-semestre">Tercer Semestre</option>
+                <option value="cuarto-semestre">Cuarto Semestre</option>
+                <option value="quinto-semestre">Quinto Semestre</option>
+                <option value="sexto-semestre">Sexto Semestre</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="area">Área</label>
+            <select id="area" onchange="updateAcademiaOptions();">
+		<option value="selecciona-area">Selecciona Área</option>
+                <option value="básicas">Básicas</option>
+                <option value="humanísticas">Humanísticas</option>
+                <option value="tecnológicas">Tecnológicas</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="academia">Academia</label>
+            <select id="academia" onchange="updateUnidadAprendizajeOptions();">
+		<option value="selecciona-academia">Selecciona Academia</option>
+                <option value="diagnóstico-y-mejoramiento-ambiental">Diagnóstico y Mejoramiento Ambiental</option>
+                <option value="metrología-y-control-de-calidad">Metrología y Control de Calidad</option> 
+                <option value="telecomunicaciones">Telecomunicaciones</option>  
+                <option value="mecatrónica">Mecatrónica</option> 
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="unidad-aprendizaje">Unidad de Aprendizaje</label>
+            <select id="unidad-aprendizaje"></select>
+		
+        </div>
+
+        <div class="form-group">
+            <label for="presidente-de-academia">Presidente de Academia</label>
+            <select id="presidente"></select> 
+		
+        </div>
+
+        <div class="form-group">
+            <label for="turno">Turno</label>
+            <select id="turno" onchange="updatePresidente()">
+		<option value="selecciona-turno">Selecciona Turno</option>
+                <option value="matutino">Matutino</option>
+                <option value="vespertino">Vespertino</option>
+            </select>
+        </div>
+
+          <div class="form-group">
+            <label for="archivo">Selecciona un archivo:</label>
+            <input type="file" id="archivo" name="archivo" accept=".jpg,.jpeg,.png,.pdf">
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Registrar Planeación">
+        </div>
+</div>
+
+</body>
+</html>
